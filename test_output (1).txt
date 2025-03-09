@@ -1,0 +1,237 @@
+No files changed, compilation skipped
+
+Ran 8 tests for test/TransplantManagement.t.sol:TransplantManagementTest
+[PASS] testDonorAndRecipientRegistration_Success() (gas: 364511)
+Traces:
+  [364511] TransplantManagementTest::testDonorAndRecipientRegistration_Success()
+    ├─ [0] VM::prank(SHA-256: [0x0000000000000000000000000000000000000002])
+    │   └─ ← [Return] 
+    ├─ [165596] TransplantManagement::registerDonor(ECAdd: [0x0000000000000000000000000000000000000006], "A+", "HLA-A2", "Kidney", "ipfs://donor1")
+    │   ├─ emit DonorRegistered(donorId: 1, donorAddress: ECAdd: [0x0000000000000000000000000000000000000006], organType: "Kidney")
+    │   └─ ← [Stop] 
+    ├─ [4657] TransplantManagement::donors(1) [staticcall]
+    │   └─ ← [Return] 1, ECAdd: [0x0000000000000000000000000000000000000006], "A+", "HLA-A2", "Kidney", "ipfs://donor1", true, false
+    ├─ [0] VM::assertEq(1, 1) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [0] VM::assertEq("A+", "A+") [staticcall]
+    │   └─ ← [Return] 
+    ├─ [0] VM::assertEq("Kidney", "Kidney") [staticcall]
+    │   └─ ← [Return] 
+    ├─ [0] VM::assertTrue(true) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [0] VM::prank(SHA-256: [0x0000000000000000000000000000000000000002])
+    │   └─ ← [Return] 
+    ├─ [163706] TransplantManagement::registerRecipient(ECMul: [0x0000000000000000000000000000000000000007], "A+", "HLA-A2", "Kidney", "ipfs://recipient1")
+    │   ├─ emit RecipientRegistered(recipientId: 1, recipientAddress: ECMul: [0x0000000000000000000000000000000000000007], organType: "Kidney")
+    │   └─ ← [Stop] 
+    ├─ [4703] TransplantManagement::recipients(1) [staticcall]
+    │   └─ ← [Return] 1, ECMul: [0x0000000000000000000000000000000000000007], "A+", "HLA-A2", "Kidney", "ipfs://recipient1", true, false, false
+    ├─ [0] VM::assertEq(1, 1) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [0] VM::assertEq("A+", "A+") [staticcall]
+    │   └─ ← [Return] 
+    ├─ [0] VM::assertEq("Kidney", "Kidney") [staticcall]
+    │   └─ ← [Return] 
+    ├─ [0] VM::assertTrue(true) [staticcall]
+    │   └─ ← [Return] 
+    └─ ← [Stop] 
+
+[PASS] testDonorRegistration_FailsForUnauthorizedCaller() (gas: 17233)
+Traces:
+  [17233] TransplantManagementTest::testDonorRegistration_FailsForUnauthorizedCaller()
+    ├─ [0] VM::expectRevert(custom error 0xf28dceb3:  &Only a registered Hospital can approve)
+    │   └─ ← [Return] 
+    ├─ [0] VM::prank(Blake2F: [0x0000000000000000000000000000000000000009])
+    │   └─ ← [Return] 
+    ├─ [4170] TransplantManagement::registerDonor(ECAdd: [0x0000000000000000000000000000000000000006], "A+", "HLA-A2", "Kidney", "ipfs://donor1")
+    │   └─ ← [Revert] revert: Only a registered Hospital can approve
+    └─ ← [Stop] 
+
+[PASS] testEthicalApproval_FailsForUnauthorizedCaller() (gas: 13254)
+Traces:
+  [13254] TransplantManagementTest::testEthicalApproval_FailsForUnauthorizedCaller()
+    ├─ [0] VM::expectRevert(custom error 0xf28dceb3:  2Only the Ethical Committee can perform this action)
+    │   └─ ← [Return] 
+    ├─ [0] VM::prank(Blake2F: [0x0000000000000000000000000000000000000009])
+    │   └─ ← [Return] 
+    ├─ [2629] TransplantManagement::approveDonorEthicalCommittee(1)
+    │   └─ ← [Revert] revert: Only the Ethical Committee can perform this action
+    └─ ← [Stop] 
+
+[PASS] testEthicalApproval_Success() (gas: 360925)
+Traces:
+  [360925] TransplantManagementTest::testEthicalApproval_Success()
+    ├─ [0] VM::prank(SHA-256: [0x0000000000000000000000000000000000000002])
+    │   └─ ← [Return] 
+    ├─ [165596] TransplantManagement::registerDonor(ECAdd: [0x0000000000000000000000000000000000000006], "A+", "HLA-A2", "Kidney", "ipfs://donor1")
+    │   ├─ emit DonorRegistered(donorId: 1, donorAddress: ECAdd: [0x0000000000000000000000000000000000000006], organType: "Kidney")
+    │   └─ ← [Stop] 
+    ├─ [0] VM::prank(SHA-256: [0x0000000000000000000000000000000000000002])
+    │   └─ ← [Return] 
+    ├─ [163706] TransplantManagement::registerRecipient(ECMul: [0x0000000000000000000000000000000000000007], "A+", "HLA-A2", "Kidney", "ipfs://recipient1")
+    │   ├─ emit RecipientRegistered(recipientId: 1, recipientAddress: ECMul: [0x0000000000000000000000000000000000000007], organType: "Kidney")
+    │   └─ ← [Stop] 
+    ├─ [0] VM::prank(ModExp: [0x0000000000000000000000000000000000000005])
+    │   └─ ← [Return] 
+    ├─ [5186] TransplantManagement::approveDonorEthicalCommittee(1)
+    │   ├─ emit EthicalApprovalGranted(id: 1, entityType: "Donor")
+    │   └─ ← [Stop] 
+    ├─ [4657] TransplantManagement::donors(1) [staticcall]
+    │   └─ ← [Return] 1, ECAdd: [0x0000000000000000000000000000000000000006], "A+", "HLA-A2", "Kidney", "ipfs://donor1", true, true
+    ├─ [0] VM::assertTrue(true) [staticcall]
+    │   └─ ← [Return] 
+    └─ ← [Stop] 
+
+[PASS] testFullApprovalProcess_Success() (gas: 596014)
+Traces:
+  [596014] TransplantManagementTest::testFullApprovalProcess_Success()
+    ├─ [0] VM::prank(SHA-256: [0x0000000000000000000000000000000000000002])
+    │   └─ ← [Return] 
+    ├─ [165596] TransplantManagement::registerDonor(ECAdd: [0x0000000000000000000000000000000000000006], "A+", "HLA-A2", "Kidney", "ipfs://donor1")
+    │   ├─ emit DonorRegistered(donorId: 1, donorAddress: ECAdd: [0x0000000000000000000000000000000000000006], organType: "Kidney")
+    │   └─ ← [Stop] 
+    ├─ [0] VM::prank(SHA-256: [0x0000000000000000000000000000000000000002])
+    │   └─ ← [Return] 
+    ├─ [163706] TransplantManagement::registerRecipient(ECMul: [0x0000000000000000000000000000000000000007], "A+", "HLA-A2", "Kidney", "ipfs://recipient1")
+    │   ├─ emit RecipientRegistered(recipientId: 1, recipientAddress: ECMul: [0x0000000000000000000000000000000000000007], organType: "Kidney")
+    │   └─ ← [Stop] 
+    ├─ [0] VM::prank(ModExp: [0x0000000000000000000000000000000000000005])
+    │   └─ ← [Return] 
+    ├─ [5186] TransplantManagement::approveDonorEthicalCommittee(1)
+    │   ├─ emit EthicalApprovalGranted(id: 1, entityType: "Donor")
+    │   └─ ← [Stop] 
+    ├─ [0] VM::prank(ModExp: [0x0000000000000000000000000000000000000005])
+    │   └─ ← [Return] 
+    ├─ [3172] TransplantManagement::approveRecipientEthicalCommittee(1)
+    │   ├─ emit EthicalApprovalGranted(id: 1, entityType: "Recipient")
+    │   └─ ← [Stop] 
+    ├─ [0] VM::prank(Identity: [0x0000000000000000000000000000000000000004])
+    │   └─ ← [Return] 
+    ├─ [208700] TransplantManagement::createMatch(1, 1, 1)
+    │   ├─ emit MatchRecorded(matchId: 1, donorId: 1, recipientId: 1, llm: Identity: [0x0000000000000000000000000000000000000004])
+    │   ├─ emit MatchRecorded(matchId: 2, donorId: 1, recipientId: 1, llm: Identity: [0x0000000000000000000000000000000000000004])
+    │   └─ ← [Stop] 
+    ├─ [0] VM::prank(RIPEMD-160: [0x0000000000000000000000000000000000000003])
+    │   └─ ← [Return] 
+    ├─ [5018] TransplantManagement::approveMedicalTeam(1)
+    │   ├─ emit ApprovalGranted(matchId: 1, approvedBy: "Medical Team")
+    │   └─ ← [Stop] 
+    ├─ [0] VM::prank(SHA-256: [0x0000000000000000000000000000000000000002])
+    │   └─ ← [Return] 
+    ├─ [2997] TransplantManagement::approveHospital(1)
+    │   ├─ emit ApprovalGranted(matchId: 1, approvedBy: "Hospital")
+    │   └─ ← [Stop] 
+    ├─ [0] VM::prank(ECAdd: [0x0000000000000000000000000000000000000006])
+    │   └─ ← [Return] 
+    ├─ [3201] TransplantManagement::approveDonor(1)
+    │   ├─ emit ApprovalGranted(matchId: 1, approvedBy: "Donor")
+    │   └─ ← [Stop] 
+    ├─ [0] VM::prank(ECMul: [0x0000000000000000000000000000000000000007])
+    │   └─ ← [Return] 
+    ├─ [3196] TransplantManagement::approveRecipient(1)
+    │   ├─ emit ApprovalGranted(matchId: 1, approvedBy: "Recipient")
+    │   └─ ← [Stop] 
+    ├─ [0] VM::prank(ModExp: [0x0000000000000000000000000000000000000005])
+    │   └─ ← [Return] 
+    ├─ [3018] TransplantManagement::approveFinalTransplant(1)
+    │   ├─ emit ApprovalGranted(matchId: 1, approvedBy: "Ethical Committee")
+    │   └─ ← [Stop] 
+    ├─ [1392] TransplantManagement::isTransplantApproved(1) [staticcall]
+    │   └─ ← [Return] true
+    ├─ [0] VM::assertTrue(true) [staticcall]
+    │   └─ ← [Return] 
+    └─ ← [Stop] 
+
+[PASS] testMatchCreation_FailsForUnauthorizedCaller() (gas: 13302)
+Traces:
+  [13302] TransplantManagementTest::testMatchCreation_FailsForUnauthorizedCaller()
+    ├─ [0] VM::expectRevert(custom error 0xf28dceb3:  ,Only authorized LLMs can perform this action)
+    │   └─ ← [Return] 
+    ├─ [0] VM::prank(Blake2F: [0x0000000000000000000000000000000000000009])
+    │   └─ ← [Return] 
+    ├─ [2642] TransplantManagement::createMatch(1, 1, 1)
+    │   └─ ← [Revert] revert: Only authorized LLMs can perform this action
+    └─ ← [Stop] 
+
+[PASS] testMatchCreation_Success() (gas: 572891)
+Traces:
+  [572891] TransplantManagementTest::testMatchCreation_Success()
+    ├─ [0] VM::prank(SHA-256: [0x0000000000000000000000000000000000000002])
+    │   └─ ← [Return] 
+    ├─ [165596] TransplantManagement::registerDonor(ECAdd: [0x0000000000000000000000000000000000000006], "A+", "HLA-A2", "Kidney", "ipfs://donor1")
+    │   ├─ emit DonorRegistered(donorId: 1, donorAddress: ECAdd: [0x0000000000000000000000000000000000000006], organType: "Kidney")
+    │   └─ ← [Stop] 
+    ├─ [0] VM::prank(SHA-256: [0x0000000000000000000000000000000000000002])
+    │   └─ ← [Return] 
+    ├─ [163706] TransplantManagement::registerRecipient(ECMul: [0x0000000000000000000000000000000000000007], "A+", "HLA-A2", "Kidney", "ipfs://recipient1")
+    │   ├─ emit RecipientRegistered(recipientId: 1, recipientAddress: ECMul: [0x0000000000000000000000000000000000000007], organType: "Kidney")
+    │   └─ ← [Stop] 
+    ├─ [0] VM::prank(ModExp: [0x0000000000000000000000000000000000000005])
+    │   └─ ← [Return] 
+    ├─ [5186] TransplantManagement::approveDonorEthicalCommittee(1)
+    │   ├─ emit EthicalApprovalGranted(id: 1, entityType: "Donor")
+    │   └─ ← [Stop] 
+    ├─ [0] VM::prank(ModExp: [0x0000000000000000000000000000000000000005])
+    │   └─ ← [Return] 
+    ├─ [3172] TransplantManagement::approveRecipientEthicalCommittee(1)
+    │   ├─ emit EthicalApprovalGranted(id: 1, entityType: "Recipient")
+    │   └─ ← [Stop] 
+    ├─ [0] VM::prank(Identity: [0x0000000000000000000000000000000000000004])
+    │   └─ ← [Return] 
+    ├─ [208700] TransplantManagement::createMatch(1, 1, 1)
+    │   ├─ emit MatchRecorded(matchId: 1, donorId: 1, recipientId: 1, llm: Identity: [0x0000000000000000000000000000000000000004])
+    │   ├─ emit MatchRecorded(matchId: 2, donorId: 1, recipientId: 1, llm: Identity: [0x0000000000000000000000000000000000000004])
+    │   └─ ← [Stop] 
+    ├─ [1200] TransplantManagement::matches(1) [staticcall]
+    │   └─ ← [Return] 1, 1, 1, Identity: [0x0000000000000000000000000000000000000004], false, false, false, false, false
+    ├─ [0] VM::assertEq(1, 1) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [0] VM::assertEq(1, 1) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [0] VM::assertEq(1, 1) [staticcall]
+    │   └─ ← [Return] 
+    └─ ← [Stop] 
+
+[PASS] testTransplantApproval_FailsIfNotFullyApproved() (gas: 579601)
+Traces:
+  [579601] TransplantManagementTest::testTransplantApproval_FailsIfNotFullyApproved()
+    ├─ [0] VM::prank(SHA-256: [0x0000000000000000000000000000000000000002])
+    │   └─ ← [Return] 
+    ├─ [165596] TransplantManagement::registerDonor(ECAdd: [0x0000000000000000000000000000000000000006], "A+", "HLA-A2", "Kidney", "ipfs://donor1")
+    │   ├─ emit DonorRegistered(donorId: 1, donorAddress: ECAdd: [0x0000000000000000000000000000000000000006], organType: "Kidney")
+    │   └─ ← [Stop] 
+    ├─ [0] VM::prank(SHA-256: [0x0000000000000000000000000000000000000002])
+    │   └─ ← [Return] 
+    ├─ [163706] TransplantManagement::registerRecipient(ECMul: [0x0000000000000000000000000000000000000007], "A+", "HLA-A2", "Kidney", "ipfs://recipient1")
+    │   ├─ emit RecipientRegistered(recipientId: 1, recipientAddress: ECMul: [0x0000000000000000000000000000000000000007], organType: "Kidney")
+    │   └─ ← [Stop] 
+    ├─ [0] VM::prank(ModExp: [0x0000000000000000000000000000000000000005])
+    │   └─ ← [Return] 
+    ├─ [5186] TransplantManagement::approveDonorEthicalCommittee(1)
+    │   ├─ emit EthicalApprovalGranted(id: 1, entityType: "Donor")
+    │   └─ ← [Stop] 
+    ├─ [0] VM::prank(ModExp: [0x0000000000000000000000000000000000000005])
+    │   └─ ← [Return] 
+    ├─ [3172] TransplantManagement::approveRecipientEthicalCommittee(1)
+    │   ├─ emit EthicalApprovalGranted(id: 1, entityType: "Recipient")
+    │   └─ ← [Stop] 
+    ├─ [0] VM::prank(Identity: [0x0000000000000000000000000000000000000004])
+    │   └─ ← [Return] 
+    ├─ [208700] TransplantManagement::createMatch(1, 1, 1)
+    │   ├─ emit MatchRecorded(matchId: 1, donorId: 1, recipientId: 1, llm: Identity: [0x0000000000000000000000000000000000000004])
+    │   ├─ emit MatchRecorded(matchId: 2, donorId: 1, recipientId: 1, llm: Identity: [0x0000000000000000000000000000000000000004])
+    │   └─ ← [Stop] 
+    ├─ [0] VM::prank(RIPEMD-160: [0x0000000000000000000000000000000000000003])
+    │   └─ ← [Return] 
+    ├─ [5018] TransplantManagement::approveMedicalTeam(1)
+    │   ├─ emit ApprovalGranted(matchId: 1, approvedBy: "Medical Team")
+    │   └─ ← [Stop] 
+    ├─ [1350] TransplantManagement::isTransplantApproved(1) [staticcall]
+    │   └─ ← [Return] false
+    ├─ [0] VM::assertFalse(false) [staticcall]
+    │   └─ ← [Return] 
+    └─ ← [Stop] 
+
+Suite result: ok. 8 passed; 0 failed; 0 skipped; finished in 1.22ms (1.60ms CPU time)
+
+Ran 1 test suite in 1.58s (1.22ms CPU time): 8 tests passed, 0 failed, 0 skipped (8 total tests)
